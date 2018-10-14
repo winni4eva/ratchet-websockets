@@ -21,7 +21,6 @@
         // };
 
         // Pusher Server
-        
         var conn = new ab.Session('ws://localhost:8080',
         function socketCon() {
                 conn.subscribe('kittensCategory', function(topic, data) {
