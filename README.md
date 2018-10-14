@@ -14,3 +14,6 @@ In your browser console type the command below to send messages to all connected
 ```
 conn.send('My name is winni');
 ```
+
+## Resource
+Visit http://socketo.me/ for more info
