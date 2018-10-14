@@ -1,4 +1,5 @@
-# Ratchet PHP Setup
+# Ratchet PHP WebSockets Setup
+Ratchet is a loosely coupled PHP library providing developers with tools to create real time, bi-directional applications between clients and servers over WebSockets.
 
 ## Start socket server 
 ```
