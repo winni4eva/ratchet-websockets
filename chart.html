@@ -1,137 +1,54 @@
 <html>
     <head>
         <link href="./chart.css" rel="stylesheet">
+        <!-- Pusher Server -->
+        <script src="https://rawgit.com/cboden/fcae978cfc016d506639c5241f94e772/raw/e974ce895df527c83b8e010124a034cfcf6c9f4b/autobahn.js"></script>
     </head>
     <body>
-        <div class="skills">
-                <ul class="lines">
-                    <li class="line l--0">
-                    <span class="line__label title">
-                        Skill level:
-                    </span>
-                    </li>
-                    <li class="line l--25">
-                    <span class="line__label">
-                        The basics
-                    </span>
-                    </li>
-                    <li class="line l--50">
-                    <span class="line__label">
-                        Advanced
-                    </span>
-                    </li>
-                    <li class="line l--75">
-                    <span class="line__label">
-                        Seasoned
-                    </span>
-                    </li>
-                    <li class="line l--100">
-                    <span class="line__label">
-                        Expert
-                    </span>
-                    </li>
-                </ul>
-                
-                <div class="charts">
-                    <div class="chart chart--dev">
-                    <span class="chart__title">Development</span>
+        <div class="skills">     
+            <div class="charts">
+                <div class="chart chart--design">
+                    <span class="chart__title">2018 Election Results</span>
                     <ul class="chart--horiz">
-                        <li class="chart__bar" style="width: 98%;">
-                        <span class="chart__label">
-                            HTML5
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 98%;">
-                        <span class="chart__label">
-                            CSS3 & SCSS
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 70%;">
-                        <span class="chart__label">
-                            JavaScript
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 40%;">
-                        <span class="chart__label">
-                            AngularJS
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 40%;">
-                        <span class="chart__label">
-                            ReactJS
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 60%;">
-                        <span class="chart__label">
-                            jQuery
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 55%;">
-                        <span class="chart__label">
-                            NodeJS
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 50%;">
-                        <span class="chart__label">
-                            Grunt / Gulp / Webpack
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 40%;">
-                        <span class="chart__label">
-                            .NET
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 60%;">
-                        <span class="chart__label">
-                            Umbraco
-                        </span>
-                        </li>
-                        <li class="chart__bar" style="width: 60%;">
-                        <span class="chart__label">
-                            Sitecore
-                        </span>
-                        </li>
+                        <!-- <li class="chart__bar" style="width: 45%;">
+                            <span class="chart__label">
+                                Photoshop
+                            </span>
+                        </li> -->
                     </ul>
-                    </div>
-                    
-                    <div class="chart chart--prod">
-                    <span class="chart__title">Productivity</span>
-                    <ul class="chart--horiz">
-                    <li class="chart__bar" style="width: 75%;">
-                        <span class="chart__label">
-                        Git + Github, Bitbucket & Sourcetree
-                        </span>
-                    </li>
-                    <li class="chart__bar" style="width: 80%;">
-                        <span class="chart__label">
-                        Microsoft Office
-                        </span>
-                    </li>
-                    </ul>
-                    </div>
-                    
-                    <div class="chart chart--design">
-                    <span class="chart__title">Design</span>
-                    <ul class="chart--horiz">
-                    <li class="chart__bar" style="width: 45%;">
-                        <span class="chart__label">
-                        Photoshop
-                        </span>
-                    </li>
-                    <li class="chart__bar" style="width: 35%;">
-                        <span class="chart__label">
-                        Illustrator
-                        </span>
-                    </li>
-                    <li class="chart__bar" style="width: 60%;">
-                        <span class="chart__label">
-                        User Experience
-                        </span>
-                    </li>
-                    </ul>
-                    </div>
                 </div>
             </div>
-                  
+        </div>
+
+        <script>
+            var partyResults = [];
+            // Pusher Server
+            var conn = new ab.Session('ws://localhost:8080',
+            function socketCon() {
+                    conn.subscribe('elections', function(topic, data) {
+                        // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                        console.log('New results posted to category');
+                        console.log(topic);
+                        console.log(data);
+                        var chartUlItem = document.getElementsByClassName('chart--horiz')[0];
+
+                        var listItem = document.createElement('li');
+                        listItem.setAttribute("class", "chart__bar" );
+                        listItem.setAttribute("style", 'width:'+data.votes+'%' );
+                        listItem.appendChild(document.createTextNode(data.party+' had '+ data.votes +' % votes'));
+
+                        var spanItem = document.createElement('span');
+                        spanItem.setAttribute("class", "chart__label");
+
+                        listItem.appendChild(spanItem);
+                        chartUlItem.appendChild(listItem);
+                    });
+                },
+                function() {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+        </script>
     </body>
 </html>
