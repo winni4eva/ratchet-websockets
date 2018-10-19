@@ -59,7 +59,6 @@
         <script>
             // Socket Server
             var conn = new WebSocket('ws://localhost:8080');
-
             conn.onopen = function(e) {
                 console.log("Connection established!");
             };
@@ -101,7 +100,7 @@
                         }
                         $('.message_input').val('');
                         $messages = $('.messages');
-                        message_side = message_side || 'left';//message_side === 'left' ? 'right' : 'left';
+                        message_side = message_side || 'left';
                         message = new Message({
                             text: text,
                             message_side: message_side
@@ -123,18 +122,9 @@
 
                     conn.onmessage = function(e) {
                         console.log(e.data);
-                        // conn.send(e.data);
                         sendMessage(e.data, 'right');
                     };
-                    // sendMessage('Hello Philip! :)');
-                    
-                    // setTimeout(function () {
-                        // return sendMessage('Hi Sandy! How are you?');
-                    // }, 1000);
-                    
-                    // return setTimeout(function () {
-                        // return sendMessage('I\'m fine, thank you!');
-                    // }, 2000);
+    
                 });
 
             }.call(this));
